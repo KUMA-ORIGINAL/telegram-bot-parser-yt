@@ -45,7 +45,10 @@ async def load_link(message: types.Message, state: FSMContext):
 
 
 async def list_videos(message: types.Message):
-    await sqllite_db.sql_read(message)
+    if await sqllite_db.sql_read(message) is None:
+        await message.answer('Нету добавленных видео')
+    else:
+        await sqllite_db.sql_read(message)
 
 
 async def del_callback_run(callback_query: types.CallbackQuery):
